@@ -5,6 +5,7 @@
 
 #include <sengine/state_machine.h>
 #include <sengine/export.h>
+#include <sengine/logger.h>
 
 namespace SEngine
 {
@@ -29,11 +30,14 @@ namespace SEngine
             void event_handler(SDL_Event *event);
 
         public:
+            Logger logger;
+            
             SEngine(const char* title);
+            ~SEngine();
+            //setters
             void set_title(const char* title);
             void set_window_mode(WindowMode);
             void run(State *main_state);
-            ~SEngine();
     };
 
 } // namespace SEngine

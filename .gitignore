@@ -1,2 +1,5 @@
 /bin/
 /examples/game/bin/
+*.o
+*.dblite
+/.vscode

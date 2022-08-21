@@ -10,6 +10,8 @@ namespace SEngine
         this->WIDTH = 640;
         this->HEIGHT = 480;
         this->sm = StateMachine();
+        this->logger = Logger();
+        logger.debug("SEngine constructor called!");
     }
 
     void SEngine::set_title(const char* title) {
