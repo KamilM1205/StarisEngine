@@ -6,7 +6,7 @@ namespace SEngine
     
     void State::update(float dt) {}
 
-    void State::draw() {}
+    void State::draw(Context *ctx) {}
 
     State* State::get_state() {
         return static_cast<State*>(this);
@@ -24,8 +24,8 @@ namespace SEngine
         this->current_state->update(dt);
     }
 
-    void StateMachine::draw() {
-        this->current_state->draw();
+    void StateMachine::draw(Context *ctx) {
+        this->current_state->draw(ctx);
     }
 
     StateMachine::~StateMachine() {}

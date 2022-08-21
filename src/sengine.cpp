@@ -17,7 +17,7 @@ namespace SEngine
     }
 
     void SEngine::set_window_mode(WindowMode wm) {
-        
+        this->wm = wm;
     }
 
     void SEngine::event_handler(SDL_Event *event) {
@@ -34,7 +34,11 @@ namespace SEngine
         SDL_DisplayMode displayMode;
         int request = SDL_GetDesktopDisplayMode(0, &displayMode);
 
-        this->win = SDL_CreateWindow(this->title, 0, 0, this->WIDTH, this->HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOWPOS_CENTERED);
+        if (this->wm == WindowMode::FullScreen) {
+            this->win = SDL_CreateWindow(this->title, 0, 0, displayMode.w, displayMode.h, SDL_WINDOW_SHOWN);
+        } else {
+            this->win = SDL_CreateWindow(this->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->WIDTH, this->HEIGHT, SDL_WINDOW_SHOWN);
+        }
         if (win == nullptr) {
             std::cout << "SDL_CreateWindow ERROR: " << SDL_GetError() << std::endl;
             exit(1);
@@ -51,6 +55,8 @@ namespace SEngine
 
         bool quit = false;
 
+        Context ctx = Context(this->ren);
+
         while (!quit) {
             SDL_Event event;
 
@@ -62,6 +68,10 @@ namespace SEngine
 
             this->event_handler(&event);
             this->sm.update(0.0);
+
+            ctx.clear();
+            this->sm.draw(&ctx);
+            ctx.display();
         }
     }
 
