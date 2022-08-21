@@ -11,6 +11,8 @@ namespace SEngine
 {
     SEngine::SEngine(char* title) {
         this->title = title;
+        this->WIDTH = 640;
+        this->HEIGHT = 480;
     }
 
     void SEngine::set_title(char* title) {
@@ -47,6 +49,6 @@ namespace SEngine
     }
 
     SEngine::~SEngine() {
-
+        //SDL_DestroyWindow(this->win);
     }
 } // namespace SEngine
