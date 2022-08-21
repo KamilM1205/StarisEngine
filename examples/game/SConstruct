@@ -7,10 +7,7 @@ EnsurePythonVersion(3, 6)
 
 env = Environment()
 env.ParseConfig("pkg-config --cflags --libs sdl2")
-
-print(env)
-
-env.Append(CPPPATH=["src", "include"])
+env.Append(CPPPATH=["src", "include", "../../include"], LIBPATH=["../../bin/"], LIBS=['sengine', 'sdl2'])
 
 matches = []
 
@@ -23,4 +20,4 @@ print('src env CPPPATH:')
 print(env['CPPPATH'])
 
 # build a shared library
-env.SharedLibrary('../bin/sengine', matches)
+env.Program('bin/game', matches, LIBPATH=["../../bin/"], LIBS=['sengine'])
