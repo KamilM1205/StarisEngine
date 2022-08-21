@@ -39,6 +39,7 @@ namespace SEngine
             int WIDTH, HEIGHT;
             WindowMode wm;
             char* title;
+            void init_engine();
 
         public:
             SEngine(char*);

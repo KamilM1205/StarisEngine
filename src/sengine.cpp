@@ -24,6 +24,10 @@ namespace SEngine
     }
 
     void SEngine::run() {
+        init_engine();
+    }
+
+    void SEngine::init_engine() {
         if (SDL_Init(SDL_INIT_EVERYTHING))
         {
             std::cout << "SDL_Init ERROR: " << SDL_GetError() << std::endl;
@@ -45,7 +49,6 @@ namespace SEngine
             std::cout << "SDL_CreateRenderer ERROR: " << SDL_GetError() << std::endl;
             exit(1);
         }
-        
     }
 
     SEngine::~SEngine() {
