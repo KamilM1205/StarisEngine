@@ -33,6 +33,11 @@ namespace SEngine
             exit(1);
         }
         
+        logger.info("Hello! im a little fly!! just wanna fly around smwr!");
+        logger.warning("A warning");
+        logger.error("An error occured");
+        logger.debug("Yeeeaa i got the point");
+
         SDL_DisplayMode displayMode;
         int request = SDL_GetDesktopDisplayMode(0, &displayMode);
 

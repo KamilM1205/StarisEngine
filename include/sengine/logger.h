@@ -6,8 +6,8 @@
 namespace SEngine {
     enum LoggingLevel{
         Debug,
-        Errors,
-        Warnings,
+        Error,
+        Warning,
         Info
     };
 
@@ -31,6 +31,7 @@ namespace SEngine {
 
         public:
             Logger();
+            ~Logger();
 
             //setters
             void set_logging_level(LoggingLevel);

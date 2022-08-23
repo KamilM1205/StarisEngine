@@ -23,9 +23,13 @@ namespace SEngine {
     
     Logger::Logger() {
         this->log_file = std::ofstream(get_time() + "_log.txt");
-        this->level = LoggingLevel::Debug;
-        this->mode = LoggingMode::Both;
+        this->level = LoggingLevel::Warning;
+        this->mode = LoggingMode::File;
         debug("Logger initialized");
+    }
+
+    Logger::~Logger() {
+        this->log_file.close();
     }
     
     void Logger::set_logging_level(LoggingLevel new_level) {
@@ -38,26 +42,26 @@ namespace SEngine {
 
     void Logger::debug(std::string debug_info) {
         if (this->level == LoggingLevel::Debug) {
-            log(get_time() + "Debug: " + debug_info);
+            log(get_time() + " Debug: " + debug_info);
         }
     }
 
     void Logger::error(std::string error_info) {
-        if (this->level <= LoggingLevel::Errors) {
-            log(get_time() + "Warning: " + error_info);
+        if (this->level <= LoggingLevel::Error) {
+            log(get_time() + " Warning: " + error_info);
         }
     }
 
     void Logger::warning(std::string warning_info) {
-        if (this->level <= LoggingLevel::Warnings) {
-            log(get_time() + "Warning: " + warning_info);
+        if (this->level <= LoggingLevel::Warning) {
+            log(get_time() + " Warning: " + warning_info);
         }
     }
     
     
     void Logger::info(std::string info) {
         if (this->level <= LoggingLevel::Info) {
-            log(get_time() + "Info: " + info);
+            log(get_time() + " Info: " + info);
         }
     }
 

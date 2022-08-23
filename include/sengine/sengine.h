@@ -27,10 +27,11 @@ namespace SEngine
 
             StateMachine sm;
 
+            Logger logger;
+
             void event_handler(SDL_Event *event);
 
         public:
-            Logger logger;
             
             SEngine(const char* title);
             ~SEngine();
