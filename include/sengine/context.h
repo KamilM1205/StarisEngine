@@ -26,7 +26,6 @@ namespace SEngine
         void draw_line(int x1, int y1, int x2, int y2);
         void draw_rect(int x, int y, int w, int h);
         void draw_filled_rect(int x, int y, int w, int h);
-        void draw_triangle();
 
         ~Context();
     };

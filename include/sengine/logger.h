@@ -43,6 +43,9 @@ namespace SEngine {
             void error(std::string);
             void debug(std::string);
 
+            // Make Logger not copyable
+            Logger (const Logger&) = delete;
+            Logger &operator = (const Logger&) = delete;
     };
 }
 #endif

@@ -3,3 +3,4 @@
 *.o
 *.dblite
 /.vscode
+/examples/game/logs/

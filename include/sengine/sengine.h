@@ -35,6 +35,7 @@ namespace SEngine
             
             SEngine(const char* title);
             ~SEngine();
+            
             //setters
             void set_title(const char* title);
             void set_window_mode(WindowMode);

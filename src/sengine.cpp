@@ -9,8 +9,9 @@ namespace SEngine
         this->title = title;
         this->WIDTH = 640;
         this->HEIGHT = 480;
+        this->wm = WindowMode::Windowed;
         this->sm = StateMachine();
-        this->logger = Logger();
+        //this->logger = Logger();
         logger.debug("SEngine constructor called!");
     }
 

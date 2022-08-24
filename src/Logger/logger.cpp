@@ -22,7 +22,7 @@ std::string get_time() {
 namespace SEngine {
     
     Logger::Logger() {
-        this->log_file = std::ofstream(get_time() + "_log.txt");
+        this->log_file.open("logs/" + get_time() + "_log.txt");
         this->level = LoggingLevel::Warning;
         this->mode = LoggingMode::File;
         debug("Logger initialized");
