@@ -1,6 +1,1 @@
-/bin/
-/examples/game/bin/
-*.o
-*.dblite
-/.vscode
-/examples/game/logs/
+/target
