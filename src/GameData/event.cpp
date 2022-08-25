@@ -4,7 +4,7 @@ namespace SEngine
 {
     EventHandler::EventHandler() {}
 
-    void EventHandler::HandleEvent() {
+    void EventHandler::HandleEvent(SDL_Event *event) {
         
     }
 

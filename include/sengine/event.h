@@ -1,17 +1,13 @@
 #ifndef EVENT_H_
 #define EVENT_H_
 
-namespace SEngine {
-    enum EventType {
-        Mouse,
-        Touch,
-        Key,
-    };
+#include <SDL2/SDL.h>
 
+namespace SEngine {
     class EventHandler {
         public:
             EventHandler();
-            void HandleEvent();
+            void HandleEvent(SDL_Event *event);
             ~EventHandler();
     };
 } // namespace SEngine
