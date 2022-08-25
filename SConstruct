@@ -35,5 +35,5 @@ print('src env CPPPATH:')
 print(env['CPPPATH'])
 
 # build a shared library
-env.StaticLibrary('bin/sengine', matches, LIBS=['SDL2'])
+env.StaticLibrary('bin/sengine', matches, LIBS=['SDL2', 'pthread'])
 remove_object_files()

@@ -1,8 +1,6 @@
 
 #include <sengine/sengine.h>
 
-#include <iostream>
-
 namespace SEngine
 {
     SEngine::SEngine(const char* title) {
@@ -10,9 +8,8 @@ namespace SEngine
         this->WIDTH = 640;
         this->HEIGHT = 480;
         this->wm = WindowMode::Windowed;
-        this->sm = StateMachine();
-        //this->logger = Logger();
-        logger.debug("SEngine constructor called!");
+        this->sm = StateMachine(&this->logger);
+        this->isRunning = true;
     }
 
     void SEngine::set_title(const char* title) {
@@ -23,22 +20,19 @@ namespace SEngine
         this->wm = wm;
     }
 
-    void SEngine::event_handler(SDL_Event *event) {
-        
+    void SEngine::state_worker() {
+        while (this->isRunning) {
+            this->sm.update(0.0);
+        }
     }
 
-    void SEngine::run(State *main_state) {
+    void SEngine::init_sdl() {
         if (SDL_Init(SDL_INIT_EVERYTHING))
         {
-            std::cout << "SDL_Init ERROR: " << SDL_GetError() << std::endl;
+            logger.error("SDL_Init ERROR: " + std::string(SDL_GetError()));
             exit(1);
         }
         
-        logger.info("Hello! im a little fly!! just wanna fly around smwr!");
-        logger.warning("A warning");
-        logger.error("An error occured");
-        logger.debug("Yeeeaa i got the point");
-
         SDL_DisplayMode displayMode;
         int request = SDL_GetDesktopDisplayMode(0, &displayMode);
 
@@ -48,39 +42,40 @@ namespace SEngine
             this->win = SDL_CreateWindow(this->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->WIDTH, this->HEIGHT, SDL_WINDOW_SHOWN);
         }
         if (win == nullptr) {
-            std::cout << "SDL_CreateWindow ERROR: " << SDL_GetError() << std::endl;
+            logger.error("SDL_CreateWindow ERROR: " + std::string(SDL_GetError()));
             exit(1);
         }
 
         this->ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED || SDL_RENDERER_PRESENTVSYNC);
         if (ren == nullptr)
         {
-            std::cout << "SDL_CreateRenderer ERROR: " << SDL_GetError() << std::endl;
+            logger.error("SDL_CreateRenderer ERROR: " + std::string(SDL_GetError()));
             exit(1);
         }
+    }
 
+    void SEngine::run(State *main_state) {
         this->sm.set_state(main_state);
 
-        bool quit = false;
+        this->ctx = Context(this->ren);
 
-        Context ctx = Context(this->ren);
+        this->game_thread = std::thread(&SEngine::state_worker, this);
 
-        while (!quit) {
+        while (this->isRunning) {
             SDL_Event event;
 
             SDL_PollEvent(&event);
 
             if (event.type == SDL_QUIT) {
-                quit = true;
+                this->isRunning = false;
             }
 
-            this->event_handler(&event);
-            this->sm.update(0.0);
-
-            ctx.clear();
-            this->sm.draw(&ctx);
-            ctx.display();
+            this->ctx.clear();
+            this->sm.draw(&this->ctx);
+            this->ctx.display();
         }
+
+        this->game_thread.join();
     }
 
     SEngine::~SEngine() {

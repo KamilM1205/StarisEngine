@@ -7,6 +7,8 @@
 #include <sengine/export.h>
 #include <sengine/logger.h>
 
+#include <thread>
+
 namespace SEngine
 {
     enum WindowMode {
@@ -24,21 +26,26 @@ namespace SEngine
 
             SDL_Window *win;
             SDL_Renderer *ren;
+            Context ctx;
 
             StateMachine sm;
 
             Logger logger;
 
-            void event_handler(SDL_Event *event);
+            std::thread game_thread;
+            bool isRunning;
+
+            void state_worker();
+            void init_sdl();
 
         public:
             
             SEngine(const char* title);
             ~SEngine();
-            
+
             //setters
             void set_title(const char* title);
-            void set_window_mode(WindowMode);
+            void set_window_mode(WindowMode wm);
             void run(State *main_state);
     };
 

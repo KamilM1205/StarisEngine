@@ -12,7 +12,7 @@ class Game: public SEngine::State {
 };
 
 void Game::update(float dt) {
-    //std::cout << "Test" << std::endl;
+    
 }
 
 void Game::draw(SEngine::Context *ctx) {

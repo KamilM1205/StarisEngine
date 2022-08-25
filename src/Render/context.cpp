@@ -7,6 +7,11 @@ namespace SEngine
         this->ren = ren;
     }
 
+    Context::Context()
+    {
+        this->ren = nullptr;
+    }
+
     void Context::set_color(Color color)
     {
         this->draw_color = color;

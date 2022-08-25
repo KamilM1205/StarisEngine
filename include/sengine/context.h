@@ -17,6 +17,7 @@ namespace SEngine
         Color draw_color;
     public:
         Context(SDL_Renderer *ren);
+        Context();
 
         void set_color(Color color);
         void set_clear_color(Color color);

@@ -3,6 +3,10 @@
 namespace SEngine
 {
     State::State() {}
+
+    void State::setup(Logger *logger) {
+        this->log = logger;
+    }
     
     void State::update(float dt) {}
 
@@ -12,12 +16,18 @@ namespace SEngine
         return static_cast<State*>(this);
     }
 
+    StateMachine::StateMachine(Logger *logger) {
+        this->current_state = nullptr;
+        this->log = logger;
+    }
+
     StateMachine::StateMachine() {
         this->current_state = nullptr;
     }
 
     void StateMachine::set_state(State *state) {
         this->current_state = state;
+        this->current_state->setup(this->log);
     }
 
     void StateMachine::update(float dt) {
