@@ -1,55 +1,27 @@
-enum LoggingLevel {
-    Debug,
-    Info,
-    Warning,
-    Error
-}
+use log4rs::{append::{console::{ConsoleAppender, Target}, file::FileAppender}, encode::pattern::PatternEncoder, Config, config::{Appender, Root}, filter::threshold::ThresholdFilter};
 
-enum LoggingMode {
-    Console,
-    File,
-    Both
-}
+pub fn setup_logging(file_path: &str, level: log::LevelFilter) {
+    let stderr = ConsoleAppender::builder().target(Target::Stderr).build();
 
-struct Logger {
-    level: LoggingLevel,
-    mode: LoggingLevel
-}
-
-impl Logger {
-    fn log(&self, message: &str) {
-
-    }
-
-    fn set_logging_level(&self, new_level: LoggingLevel) {
-        &self.level = new_level;
-    }
-
-    fn set_logging_mode(&self, new_mode: LoggingMode) {
-        &self.mode = new_mode;
-    }
-
-    fn debug(&self, string: &str) {
-        if &self.mode == LoggingLevel::Debug {
-            log(string);
-        }
-    }
+    let logfile = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{l} - {m}\n")))
+        .build(file_path)
+        .unwrap();
     
-    fn info(&self, string: &str) {
-        if &self.mode >= LoggingLevel::Info {
-            log(string);
-        }
-    }
-    
-    fn warning(&self, string: &str) {
-        if &self.mode >= LoggingLevel::Warning {
-            log(string);
-        }
-    }
-    
-    fn error(&self, string: &str) {
-        if &self.mode >= LoggingLevel::Error {
-            log(string);
-        }
-    }
+    let config = Config::builder()
+        .appender(Appender::builder().build("logfile", Box::new(logfile)))
+        .appender(
+            Appender::builder()
+                .filter(Box::new(ThresholdFilter::new(level)))
+                .build("stderr", Box::new(stderr)),   
+        )
+        .build(
+            Root::builder()
+                .appender("logfile")
+                .appender("stderr")
+                .build(level),   
+        )
+        .unwrap();
+
+        log4rs::init_config(config).unwrap();
 }
