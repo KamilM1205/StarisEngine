@@ -1,7 +1,10 @@
 use log::error;
 use sdl2::event::Event;
 
-use crate::data::state_machine::{StateMachine, State};
+use crate::{
+    data::state_machine::{State, StateMachine},
+    render::context::Context, logger::setup_logging,
+};
 
 pub struct SEngine {
     title: String,
@@ -11,6 +14,7 @@ pub struct SEngine {
 
 impl SEngine {
     pub fn new() -> Self {
+        setup_logging("log/log.txt", log::LevelFilter::Debug);
         Self {
             title: "SEngine".to_owned(),
             width: 640,
@@ -58,13 +62,15 @@ impl SEngine {
             }
         };
 
-        let mut canvas = match window.into_canvas().build().map_err(|e| e.to_string()) {
+        let canvas = match window.into_canvas().build().map_err(|e| e.to_string()) {
             Ok(c) => c,
             Err(e) => {
                 error!("SDL init canvas error: {e}");
                 return;
             }
         };
+
+        let mut ctx = Context::new(canvas);
 
         let mut sm = StateMachine::default();
         sm.set_state(state);
@@ -77,7 +83,10 @@ impl SEngine {
                 }
             }
 
-            
+            ctx.clear();
+            sm.update(0.0);
+            sm.draw(&mut ctx);
+            ctx.display();
         }
     }
 }
