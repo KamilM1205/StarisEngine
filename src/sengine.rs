@@ -3,7 +3,8 @@ use sdl2::event::Event;
 
 use crate::{
     data::state_machine::{State, StateMachine},
-    render::context::Context, logger::setup_logging,
+    logger::setup_logging,
+    render::context::Context,
 };
 
 pub struct SEngine {
