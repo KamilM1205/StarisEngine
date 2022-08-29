@@ -5,7 +5,16 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[workspace]
+members = [
+    "staris_core",
+    "staris_macro",
+]
+
+exclude = [
+    "tests",
+]
+
 [dependencies]
-log4rs = "1.1.1"
-log = "0.4.17"
-sdl2 = "0.35"
+staris_core = { path = "staris_core" }
+staris_macro = { path = "staris_macro" }

@@ -2,7 +2,7 @@ use log::error;
 use sdl2::event::Event;
 
 use crate::{
-    data::state_machine::{State, StateMachine},
+    data::{state_machine::{State, StateMachine}, CommandHandler},
     logger::setup_logging,
     render::context::Context,
 };
@@ -32,7 +32,7 @@ impl SEngine {
         self.height = h;
     }
 
-    pub fn run(&mut self, state: impl State) {
+    pub fn run(&mut self, state: impl State + CommandHandler) {
         let sdl_contex = match sdl2::init() {
             Ok(s) => s,
             Err(e) => {
@@ -82,6 +82,8 @@ impl SEngine {
                     Event::Quit { .. } => break 'engine_loop,
                     _ => {}
                 }
+
+                sm.state.as_mut().unwrap().handle(event);
             }
 
             ctx.clear();

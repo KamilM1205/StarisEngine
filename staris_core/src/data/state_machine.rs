@@ -1,6 +1,7 @@
 use crate::render::context::Context;
 
 pub trait State {
+    fn init(&mut self);
     fn update(&mut self, dt: f32);
     fn draw(&self, ctx: &mut Context);
 }
@@ -9,7 +10,7 @@ pub struct StateMachine<S>
 where
     S: State,
 {
-    state: Option<S>,
+    pub state: Option<S>,
 }
 
 impl<S> Default for StateMachine<S>
@@ -27,6 +28,7 @@ where
 {
     pub fn set_state(&mut self, state: S) {
         self.state = Some(state);
+        self.state.as_mut().unwrap().init();
     }
 
     pub fn update(&mut self, dt: f32) {
